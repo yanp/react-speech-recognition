@@ -25,9 +25,10 @@ const useSpeechRecognition = ({
     useState(_browserSupportsSpeechRecognition)
   const [browserSupportsContinuousListening, setBrowserSupportsContinuousListening] =
     useState(_browserSupportsContinuousListening)
-  const [{ interimTranscript, finalTranscript }, dispatch] = useReducer(transcriptReducer, {
+  const [{ interimTranscript, finalTranscript, finalTranscriptAlternatives }, dispatch] = useReducer(transcriptReducer, {
     interimTranscript: recognitionManager.interimTranscript,
-    finalTranscript: ''
+    finalTranscript: '',
+    finalTranscriptAlternatives: []
   })
   const [listening, setListening] = useState(recognitionManager.listening)
   const [isMicrophoneAvailable, setMicrophoneAvailable] =
@@ -114,9 +115,9 @@ const useSpeechRecognition = ({
   )
 
   const handleTranscriptChange = useCallback(
-    (newInterimTranscript, newFinalTranscript) => {
+    (newInterimTranscript, newFinalTranscript, newFinalTranscriptAlternatives) => {
       if (transcribing) {
-        dispatch(appendTrancript(newInterimTranscript, newFinalTranscript))
+        dispatch(appendTrancript(newInterimTranscript, newFinalTranscript, newFinalTranscriptAlternatives))
       }
       matchCommands(newInterimTranscript, newFinalTranscript)
     }, [matchCommands, transcribing]
@@ -159,6 +160,7 @@ const useSpeechRecognition = ({
     transcript,
     interimTranscript,
     finalTranscript,
+    finalTranscriptAlternatives,
     listening,
     isMicrophoneAvailable,
     resetTranscript,

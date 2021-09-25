@@ -4,12 +4,13 @@ export const clearTrancript = () => {
   return { type: CLEAR_TRANSCRIPT }
 }
 
-export const appendTrancript = (interimTranscript, finalTranscript) => {
+export const appendTrancript = (interimTranscript, finalTranscript, finalTranscriptAlternatives) => {
   return {
     type: APPEND_TRANSCRIPT,
     payload: {
       interimTranscript,
-      finalTranscript
+      finalTranscript,
+      finalTranscriptAlternatives
     }
   }
 }
