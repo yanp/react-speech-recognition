@@ -158,7 +158,9 @@ export default class RecognitionManager {
         for (let j = currentIndex; j < results[i].length; ++j) {
           alts.push(results[i][j].transcript);
         }
-        this.updateFinalTranscriptAlternatives(alts);
+        if (alts.length > 0) {
+          this.updateFinalTranscriptAlternatives(alts);
+        }
 
       } else {
         this.interimTranscript = concatTranscripts(
