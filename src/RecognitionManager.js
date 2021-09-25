@@ -8,6 +8,8 @@ export default class RecognitionManager {
     this.pauseAfterDisconnect = false
     this.interimTranscript = ''
     this.finalTranscript = ''
+    this.finalTranscriptAlternatives = [];
+
     this.listening = false
     this.isMicrophoneAvailable = true
     this.subscribers = {}
@@ -146,9 +148,18 @@ export default class RecognitionManager {
     const currentIndex = resultIndex === undefined ? results.length - 1 : resultIndex
     this.interimTranscript = ''
     this.finalTranscript = ''
+    this.finalTranscriptAlternatives = [];
+
     for (let i = currentIndex; i < results.length; ++i) {
       if (results[i].isFinal && (!isAndroid() || results[i][0].confidence > 0)) {
         this.updateFinalTranscript(results[i][0].transcript)
+
+        var alts = [];
+        for (let j = currentIndex; j < results[i].length; ++j) {
+          alts.push(results[i][j].transcript);
+        }
+        this.updateFinalTranscriptAlternatives(alts);
+
       } else {
         this.interimTranscript = concatTranscripts(
           this.interimTranscript,
@@ -168,6 +179,10 @@ export default class RecognitionManager {
     if (!isDuplicateResult) {
       this.emitTranscriptChange(this.interimTranscript, this.finalTranscript)
     }
+  }
+
+  updateFinalTranscriptAlternatives(newFinalTranscriptAlternatives) {
+    this.finalTranscriptAlternatives.push(newFinalTranscriptAlternatives);
   }
 
   updateFinalTranscript(newFinalTranscript) {
