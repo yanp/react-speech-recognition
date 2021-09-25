@@ -70,10 +70,10 @@ export default class RecognitionManager {
     })
   }
 
-  emitTranscriptChange(interimTranscript, finalTranscript) {
+  emitTranscriptChange(interimTranscript, finalTranscript, finalTranscriptAlternatives) {
     Object.keys(this.subscribers).forEach((id) => {
       const { onTranscriptChange } = this.subscribers[id]
-      onTranscriptChange(interimTranscript, finalTranscript)
+      onTranscriptChange(interimTranscript, finalTranscript, finalTranscriptAlternatives)
     })
   }
 
@@ -177,7 +177,7 @@ export default class RecognitionManager {
       this.previousResultWasFinalOnly = false
     }
     if (!isDuplicateResult) {
-      this.emitTranscriptChange(this.interimTranscript, this.finalTranscript)
+      this.emitTranscriptChange(this.interimTranscript, this.finalTranscript, this.finalTranscriptAlternatives)
     }
   }
 
