@@ -10,7 +10,7 @@ const transcriptReducer = (state, action) => {
         finalTranscriptAlternatives: []
       }
     case APPEND_TRANSCRIPT:
-      newFinalTranscriptAlternatives = (action.payload.finalTranscriptAlternatives.length > 0) ? [...state.finalTranscriptAlternatives, action.payload.finalTranscriptAlternatives] : state.finalTranscriptAlternatives;
+      const newFinalTranscriptAlternatives = (action.payload.finalTranscriptAlternatives.length > 0) ? [...state.finalTranscriptAlternatives, action.payload.finalTranscriptAlternatives] : state.finalTranscriptAlternatives;
       return {
         interimTranscript: action.payload.interimTranscript,
         finalTranscript: concatTranscripts(state.finalTranscript, action.payload.finalTranscript),
